@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <title>Survey</title>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <a class="text-dark" href="index.html">Friend Finder</a>
+            </h1>
+            <hr>
+            <h2 class="text-center">Find your Match</h2>
+
+            <div class="card-body bg-secondary">
+                <form role="form">
+                    <div class="form-group">
+                        <h2>1:Strongly Disagree; 2:Disagree; 3:No Option; 4:Agree; 5:Strongly Agree <small><a
+                                    class="text-dark float-right"></a></small>
+                        </h2>
+                        <label for="q1">Do you like Pirates?</label>
+                        <input type="number" class="form-control" value="3" id="q1" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q2">Do you like singing in front of large groups?</label>
+                        <input type="number" class="form-control" value="3" id="q2" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q3">Do you like stealing cars?</label>
+                        <input type="number" class="form-control" value="3" id="q3" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q4">Do you like new appliances?</label>
+                        <input type="number" class="form-control" value="3" id="q4" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q5">Are you a curious person?</label>
+                        <input type="number" class="form-control" value="3" id="q5" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q6">Do you enjoy fixing cars?</label>
+                        <input type="number" class="form-control" value="3" id="q6" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q7">Are you religious?</label>
+                        <input type="number" class="form-control" value="3" id="q7" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q8">Do you enjoy the 70's?</label>
+                        <input type="number" class="form-control" value="3" id="q8" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q9">Do you enjoy coding?</label>
+                        <input type="number" class="form-control" value="3" id="q9" min=1 max=5>
+                    </div>
+                    <div class="form-group">
+                        <label for="q10">Do you like fairy tales?</label>
+                        <input type="number" class="form-control" value="3" id="q10" min=1 max=5>
+                    </div>
+                </form>
+            </div>
+
+            <button id="bsubmit" type="submit" class="btn btn-dark submit">Submit</button>
+
+
+
+
+
+            <footer class="footer">
+                <div class="container">
+                    <a href="../data/friends.js" class="text-dark">View Friends</a>
+                </div>
+            </footer>
+
+            <div class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Friend Match</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Friend Match</h4>
+                            <div class="divider"></div>
+                            <h5 id="userMatch"></h5>
+                            <img id="userMatchImage" class="materialboxed" width="300" src="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    $('#bsubmit').on('click', function (event) {
+        event.preventDefault();
+        console.log("button click test");
+        var userInput = {
+            scores: [
+                $("#q1").val(),
+                $("#q2").val(),
+                $("#q3").val(),
+                $("#q4").val(),
+                $("#q5").val(),
+                $("#q6").val(),
+                $("#q7").val(),
+                $("#q8").val(),
+                $("#q9").val(),
+                $("#q10").val(),
+            ]
+        };
+
+        //does nto like this. cors error
+        //button click test works, nothign after
+        console.log(userInput);
+        $.post("/api/friends", userInput, function (data) {
+            $("#userMatch").html(data.bestMatchName);
+            $("#userMatchImage").attr("src", data.bestMatchImage);
+            $(".modal").modal("toggle");
+            console.log("data", data)
+        })
+    });
+</script>
+
+</html>
